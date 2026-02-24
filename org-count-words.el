@@ -254,9 +254,11 @@ It defaults to a comma."
                  (lambda (buf)
                    (cancel-timer debounce-timer)
                    (setq debounce-timer nil)
-                   (with-current-buffer buf
-                     (apply orig-fn args)
-                     (force-mode-line-update)))
+                   (when (buffer-live-p buf)
+                     (with-current-buffer buf
+                       (apply orig-fn args)
+                       (force-mode-line-update)))
+                   )
                  (current-buffer))))))))
 
 ;;;###autoload
